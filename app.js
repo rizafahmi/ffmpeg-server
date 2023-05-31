@@ -2,6 +2,9 @@ import express from 'express';
 import nunjucks from 'nunjucks';
 import bodyParser from 'body-parser';
 import multer from 'multer';
+import fs from 'fs';
+
+const UPLOAD_PATH = 'public/uploads'
 
 const app = express();
 
@@ -24,6 +27,16 @@ app.get('/', function(req, res) {
 
 app.post('/convert', upload.single('file'), function(req, res) {
   console.log(req.file);
+  // Save temporary file
+  fs.writeFileSync(`${UPLOAD_PATH}/temp/${req.file.originalname}`, req.file.buffer);
+
+  // Convert file
+
+  // Delete temporary file
+
+  // Save converted file
+  // const ext = req.file.originalname.split('.').pop();
+  // fs.writeFileSync(`${UPLOAD_PATH}/download.${ext}`, req.file.buffer);
   res.send({ status: 'OK' })
 });
 
