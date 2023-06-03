@@ -2,7 +2,8 @@ import express from 'express';
 import nunjucks from 'nunjucks';
 import bodyParser from 'body-parser';
 import multer from 'multer';
-import fs from 'fs';
+import fs from 'node:fs/promises';
+import { spawn } from 'child_process';
 
 const UPLOAD_PATH = 'public/uploads'
 
@@ -25,19 +26,38 @@ app.get('/', function(req, res) {
   res.render('index.html');
 });
 
-app.post('/convert', upload.single('file'), function(req, res) {
-  console.log(req.file);
+app.post('/', upload.single('file'), async function(req, res) {
+  // console.log(req.file);
+
+  // Check file destination exsist, if exist, delete it
+  try {
+    await fs.access(`${UPLOAD_PATH}/download.webm`, fs.F_OK);
+    await fs.unlink(`${UPLOAD_PATH}/download.webm`);
+  } catch (err) {
+    console.log(err);
+  }
+
   // Save temporary file
-  fs.writeFileSync(`${UPLOAD_PATH}/temp/${req.file.originalname}`, req.file.buffer);
+  const fullpath = `${UPLOAD_PATH}/temp/${req.file.originalname}`;
+  try {
+    await fs.writeFile(fullpath, req.file.buffer);
+  } catch (err) {
+    console.log(err);
+  }
 
   // Convert file
+  const command = `ffmpeg -i "${fullpath}" -c:v libvpx -crf 15 -b:v 1M -c:a libvorbis ${UPLOAD_PATH}/download.webm`;
+  const ffmpeg = spawn(command, { stdio: ['pipe', 'pipe', process.stderr], shell: true });
+  ffmpeg.stdout.on('data', function(data) {
+    console.log(data);
+  })
 
-  // Delete temporary file
+  ffmpeg.on('exit', function() {
+    // Do something when finish
+    console.info("Conversion finished.");
+  });
 
-  // Save converted file
-  // const ext = req.file.originalname.split('.').pop();
-  // fs.writeFileSync(`${UPLOAD_PATH}/download.${ext}`, req.file.buffer);
-  res.send({ status: 'OK' })
+  res.render('index.html')
 });
 
 app.listen(3000, function() {
