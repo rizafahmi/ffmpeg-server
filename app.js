@@ -4,10 +4,14 @@ import bodyParser from 'body-parser';
 import multer from 'multer';
 import fs from 'node:fs/promises';
 import { spawn } from 'child_process';
+import { Server } from 'socket.io';
+import http from 'http';
 
 const UPLOAD_PATH = 'public/uploads'
 
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server);
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static('public'));
@@ -60,6 +64,10 @@ app.post('/', upload.single('file'), async function(req, res) {
   res.render('index.html')
 });
 
-app.listen(3000, function() {
+io.on('connection', function(socket) {
+  console.log('a user connected');
+});
+
+server.listen(3000, function() {
   console.info('Server is running on port 3000');
 });
