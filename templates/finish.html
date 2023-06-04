@@ -12,6 +12,10 @@
     <link rel="shortcut icon" href="/image/favicon.png" />
 
     <!-- Font -->
+
+    <link rel="stylesheet" href="/open-props.min.css">
+    <link rel="stylesheet" href="/normalize.dark.min.css">
+    <link rel="stylesheet" href="/buttons.min.css">
     <link rel="stylesheet" href="/css/style.css">
 </head>
 
@@ -24,9 +28,11 @@
 
     <hr />
 
-    <p>Total waktu konversi: {{ time }} milidetik.</p>
+    <p class="time">Total waktu konversi: <span class="highlight">{{ time }}</span> milidetik.</p>
 
-    <a href="/">Konversi lagi</a>
+    <form action="/">
+        <button type="submit" class="button">Konversi lagi</button>
+    </form>
 </body>
 
 </html>

@@ -1,23 +1,18 @@
-
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box
-}
-
-input:focus,
-select:focus,
-textarea:focus,
-button:focus {
-	outline: none
-}
-
 body {
-	font: 16px Inter, Helvetica, Arial;
-  height: 100%;
-  padding: 20px 20px 20px;
+    padding: var(--size-fluid-3);
 }
 
-video {
-    width: 100%;
+.button {
+    --_bg: linear-gradient(var(--indigo-5), var(--indigo-7));
+    --_border: var(--indigo-6);
+    --_text: var(--indigo-0);
+    --_ink-shadow: 0 1px 0 var(--indigo-9);
+}
+
+.time {
+    font-size: var(--font-size-6);
+}
+
+.highlight {
+    animation: var(--animation-blink);
 }

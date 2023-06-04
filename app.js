@@ -11,6 +11,8 @@ const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static('public'));
+app.use(express.static('node_modules/open-props'))
+
 
 const upload = multer({ storage: multer.memoryStorage() });
 
