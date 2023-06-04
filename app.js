@@ -47,6 +47,7 @@ app.post('/', upload.single('file'), async function(req, res) {
 
   // Convert file
   const command = `ffmpeg -i "${fullpath}" -c:v libvpx -crf 15 -b:v 1M -c:a libvorbis ${UPLOAD_PATH}/download.webm`;
+  const start = Date.now();
   const ffmpeg = spawn(command, { stdio: ['pipe', 'pipe', process.stderr], shell: true });
   ffmpeg.stdout.on('data', function(data) {
     console.log(data);
@@ -55,9 +56,9 @@ app.post('/', upload.single('file'), async function(req, res) {
   ffmpeg.on('exit', function() {
     // Do something when finish
     console.info("Conversion finished.");
+    const end = Date.now();
+    res.render('finish.html', { time: end - start });
   });
-
-  res.render('index.html')
 });
 
 app.listen(3000, function() {

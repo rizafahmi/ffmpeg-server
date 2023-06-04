@@ -1,0 +1,19 @@
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+	outline: none
+}
+
+body {
+	font: 16px Inter, Helvetica, Arial;
+  height: 100%;
+  padding: 20 20 20;
+}
