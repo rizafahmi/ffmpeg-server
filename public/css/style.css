@@ -15,5 +15,9 @@ button:focus {
 body {
 	font: 16px Inter, Helvetica, Arial;
   height: 100%;
-  padding: 20 20 20;
+  padding: 20px 20px 20px;
+}
+
+video {
+    width: 100%;
 }
