@@ -4,22 +4,23 @@ import bodyParser from 'body-parser';
 import multer from 'multer';
 import fs from 'node:fs/promises';
 import { spawn } from 'child_process';
+import cors from 'cors';
 
-const UPLOAD_PATH = 'public/uploads'
+const UPLOAD_PATH = 'public/uploads';
 
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(cors());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('public'));
-app.use(express.static('node_modules/open-props'))
-
+app.use(express.static('node_modules/open-props'));
 
 const upload = multer({ storage: multer.memoryStorage() });
 
 // Nunjucks view engine
 nunjucks.configure(['templates/'], {
   autoescape: true,
-  express: app
+  express: app,
 });
 
 app.set('view engine', 'html');
@@ -50,17 +51,28 @@ app.post('/', upload.single('file'), async function(req, res) {
   // Convert file
   const command = `ffmpeg -i "${fullpath}" -c:v libvpx -crf 15 -b:v 1M -c:a libvorbis ${UPLOAD_PATH}/download.webm`;
   const start = Date.now();
-  const ffmpeg = spawn(command, { stdio: ['pipe', 'pipe', process.stderr], shell: true });
+  const ffmpeg = spawn(command, {
+    stdio: ['pipe', 'pipe', process.stderr],
+    shell: true,
+  });
   ffmpeg.stdout.on('data', function(data) {
     console.log(data);
-  })
+  });
 
   ffmpeg.on('exit', function() {
     // Do something when finish
-    console.info("Conversion finished.");
+    console.info('Conversion finished.');
     const end = Date.now();
     res.render('finish.html', { time: end - start });
   });
+});
+
+app.get('/client', function(req, res) {
+
+  res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp')
+  res.setHeader('Cross-Origin-Opener-Policy', 'same-origin')
+
+  res.render('client.html');
 });
 
 app.listen(3000, function() {

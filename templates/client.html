@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Title -->
+  <title>Konversi Media - Client</title>
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="/image/favicon.png" />
+
+  <!-- Font -->
+
+  <link rel="stylesheet" href="/open-props.min.css">
+  <link rel="stylesheet" href="/normalize.dark.min.css">
+  <link rel="stylesheet" href="/buttons.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <h1>Konversi Media</h1>
+
+  <form action="/" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" id="file" required>
+    <button type="submit">Konversi</button>
+  </form>
+
+  <script src="js/ffmpeg.min.js"></script>
+  <script type="module" src="js/client.js"></script>
+
+
+</body>
+
+</html>
