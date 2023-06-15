@@ -2,9 +2,21 @@ const { createFFmpeg, fetchFile } = FFmpeg;
 
 const ffmpeg = createFFmpeg({ log: true });
 
+const formEl = document.querySelector('form');
+const loadingEl = document.querySelector('.loading');
+const highlightEl = document.querySelector('.highlight');
+const finishEl = document.querySelector('.finish');
+const convertEl = document.querySelector('button[type="submit"]');
+
+formEl.style = 'display: none';
+finishEl.style = 'display: none';
+
+
 async function main() {
   try {
     await ffmpeg.load({ log: true, corePath: 'ffmpeg-core.js' });
+    loadingEl.style = 'display: none;';
+    formEl.style = 'display: inline';
   } catch (err) {
     console.error(err);
   }
@@ -12,11 +24,17 @@ async function main() {
 
 main();
 
-document.querySelector('#file').addEventListener('change', convert, false);
+formEl.addEventListener('submit', convert, false);
 
 
 async function convert(event) {
-  const video = event.target.files.item(0);
+  event.preventDefault();
+  loadingEl.style = 'display: block;';
+  loadingEl.textContent = 'Melakukan konversi... Buka console browser.';
+  formEl.style = 'display: none';
+
+  const fileEl = document.querySelector('#file');
+  const video = fileEl.files.item(0);
 
   const start = Date.now();
 
@@ -44,16 +62,30 @@ async function convert(event) {
 
   console.info('Conversion complete');
   // create video element
-  const videoDOM = document.createElement('video');
-  videoDOM.id = "video";
-  videoDOM.controls = true;
+  const videoEl = document.createElement('video');
+  videoEl.id = "video";
+  videoEl.controls = true;
 
   const source = document.createElement('source')
   source.src = result;
   source.type = "video/webm";
-  videoDOM.appendChild(source);
+  videoEl.appendChild(source);
 
-  document.body.appendChild(videoDOM);
+  document.querySelector('.video-container').appendChild(videoEl);
   const duration = end - start;
   console.info('Time taken: ' + duration + 'ms');
+
+  highlightEl.textContent = duration;
+
+  resetUI();
+
+}
+
+function resetUI() {
+
+  loadingEl.style = 'display: none;';
+  formEl.style = 'display: inline';
+  finishEl.style = 'display: block';
+  convertEl.disabled = true;
+
 }

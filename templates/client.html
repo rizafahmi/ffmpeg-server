@@ -22,10 +22,26 @@
 <body>
   <h1>Konversi Media</h1>
 
-  <form action="/" method="post" enctype="multipart/form-data">
+  <h4 class="loading">Memuat FFmpeg...</h4>
+  <form action="/client" method="post" enctype="multipart/form-data">
     <input type="file" name="file" id="file" required>
     <button type="submit">Konversi</button>
   </form>
+
+  <div class="video-container">
+
+  </div>
+
+  <div class="finish">
+    <hr />
+    <p class="time">Total waktu konversi: <span class="highlight">0</span> milidetik.</p>
+
+    <form action="/client">
+      <button type="submit" class="button">Konversi lagi</button>
+    </form>
+
+  </div>
+
 
   <script src="js/ffmpeg.min.js"></script>
   <script type="module" src="js/client.js"></script>
