@@ -2,9 +2,20 @@ import express from 'express';
 import nunjucks from 'nunjucks';
 import bodyParser from 'body-parser';
 import multer from 'multer';
+import cors from 'cors';
+import sqlite from 'better-sqlite3';
 import fs from 'node:fs/promises';
 import { spawn } from 'child_process';
-import cors from 'cors';
+import path from 'path';
+
+const db = new sqlite(path.resolve('stats.db'), { fileMustExist: false });
+db.exec(`CREATE TABLE IF NOT EXISTS stats (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  time INTEGER NOT NULL,
+  user_agent TEXT,
+  filesize INTEGER,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+  );`);
 
 const UPLOAD_PATH = 'public/uploads';
 
@@ -34,14 +45,14 @@ app.post('/', upload.single('file'), async function(req, res) {
 
   // Check file destination exsist, if exist, delete it
   try {
-    await fs.access(`${UPLOAD_PATH}/download.webm`, fs.F_OK);
-    await fs.unlink(`${UPLOAD_PATH}/download.webm`);
+    await fs.access(`${UPLOAD_PATH} / download.webm`, fs.F_OK);
+    await fs.unlink(`${UPLOAD_PATH} / download.webm`);
   } catch (err) {
     console.log(err);
   }
 
   // Save temporary file
-  const fullpath = `${UPLOAD_PATH}/temp/${req.file.originalname}`;
+  const fullpath = `${UPLOAD_PATH} / temp / ${req.file.originalname}`;
   try {
     await fs.writeFile(fullpath, req.file.buffer);
   } catch (err) {
@@ -49,7 +60,7 @@ app.post('/', upload.single('file'), async function(req, res) {
   }
 
   // Convert file
-  const command = `ffmpeg -i "${fullpath}" -c:v libvpx -crf 15 -b:v 1M -c:a libvorbis ${UPLOAD_PATH}/download.webm`;
+  const command = `ffmpeg - i "${fullpath}" - c: v libvpx - crf 15 - b: v 1M - c: a libvorbis ${UPLOAD_PATH} / download.webm`;
   const start = Date.now();
   const ffmpeg = spawn(command, {
     stdio: ['pipe', 'pipe', process.stderr],
@@ -73,6 +84,15 @@ app.get('/client', function(req, res) {
   res.setHeader('Cross-Origin-Opener-Policy', 'same-origin')
 
   res.render('client.html');
+});
+
+app.use(express.json());
+app.post('/api/record', function(req, res) {
+  console.info('Save stat to database...');
+  const { filesize, time } = req.body;
+  const stmt = db.prepare(`INSERT INTO stats (time, user_agent, filesize) VALUES (?, ?, ?);`);
+  stmt.run(parseInt(time), req.headers['user-agent'], parseInt(filesize));
+  res.json({ status: 'OK' });
 });
 
 app.listen(3000, function() {

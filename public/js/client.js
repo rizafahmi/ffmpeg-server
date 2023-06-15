@@ -75,6 +75,7 @@ async function convert(event) {
   const duration = end - start;
   console.info('Time taken: ' + duration + 'ms');
 
+  fetch('/api/record', { method: 'POST', body: JSON.stringify({ time: duration, filesize: video.size }), headers: { 'Content-Type': 'application/json' } });
   highlightEl.textContent = duration;
 
   resetUI();
