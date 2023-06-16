@@ -1,24 +1,29 @@
 const { createFFmpeg, fetchFile } = FFmpeg;
 
-const ffmpeg = createFFmpeg({ log: true });
+
+const ffmpeg = createFFmpeg({ log: true, corePath: 'https://ffmpeg.rizafahmi.com/js/ffmpeg-core.js' });
 
 const formEl = document.querySelector('form');
 const loadingEl = document.querySelector('.loading');
+const errorEl = document.querySelector('.error');
 const highlightEl = document.querySelector('.highlight');
 const finishEl = document.querySelector('.finish');
 const convertEl = document.querySelector('button[type="submit"]');
 
 formEl.style = 'display: none';
 finishEl.style = 'display: none';
+errorEl.style = 'display: none';
 
 
 async function main() {
   try {
-    await ffmpeg.load({ log: true, corePath: 'ffmpeg-core.js' });
+    await ffmpeg.load();
     loadingEl.style = 'display: none;';
     formEl.style = 'display: inline';
   } catch (err) {
     console.error(err);
+    loadingEl.style = 'display: none;';
+    errorEl.style = 'display: block';
   }
 }
 
