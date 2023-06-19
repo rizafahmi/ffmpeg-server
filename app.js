@@ -45,14 +45,14 @@ app.post('/', upload.single('file'), async function(req, res) {
 
   // Check file destination exsist, if exist, delete it
   try {
-    await fs.access(`${UPLOAD_PATH} / download.webm`, fs.F_OK);
-    await fs.unlink(`${UPLOAD_PATH} / download.webm`);
+    await fs.access(`${UPLOAD_PATH}/download.webm`, fs.F_OK);
+    await fs.unlink(`${UPLOAD_PATH}/download.webm`);
   } catch (err) {
     console.log(err);
   }
 
   // Save temporary file
-  const fullpath = `${UPLOAD_PATH} / temp / ${req.file.originalname}`;
+  const fullpath = `${UPLOAD_PATH}/temp/${req.file.originalname}`;
   try {
     await fs.writeFile(fullpath, req.file.buffer);
   } catch (err) {
@@ -60,7 +60,7 @@ app.post('/', upload.single('file'), async function(req, res) {
   }
 
   // Convert file
-  const command = `ffmpeg - i "${fullpath}" - c: v libvpx - crf 15 - b: v 1M - c: a libvorbis ${UPLOAD_PATH} / download.webm`;
+  const command = `ffmpeg -i "${fullpath}" -c:v libvpx -crf 15 -b:v 1M -c:a libvorbis ${UPLOAD_PATH}/download.webm`;
   const start = Date.now();
   const ffmpeg = spawn(command, {
     stdio: ['pipe', 'pipe', process.stderr],
