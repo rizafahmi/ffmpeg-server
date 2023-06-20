@@ -2,50 +2,50 @@
 <html lang="id">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Title -->
-    <title>Konversi Media - Client</title>
+  <!-- Title -->
+  <title>Konversi Media - Client</title>
 
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="/image/favicon.png" />
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="/img/favicon.ico" />
 
-    <!-- Font -->
+  <!-- Font -->
 
-    <link rel="stylesheet" href="/open-props.min.css">
-    <link rel="stylesheet" href="/normalize.dark.min.css">
-    <link rel="stylesheet" href="/buttons.min.css">
-    <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/open-props.min.css">
+  <link rel="stylesheet" href="/normalize.dark.min.css">
+  <link rel="stylesheet" href="/buttons.min.css">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
-    <h1>Konversi Media</h1>
+  <h1>Konversi Media</h1>
 
-    <h4 class="loading">Memuat FFmpeg...</h4>
-    <h5 class="error">Gagal memuat FFmpeg <span role="img">😥</span></h5>
-    <form action="/client" method="post" enctype="multipart/form-data">
-        <input type="file" name="file" id="file" required>
-        <button type="submit">Konversi</button>
+  <h4 class="loading">Memuat FFmpeg...</h4>
+  <h5 class="error">Gagal memuat FFmpeg <span role="img">😥</span></h5>
+  <form action="/client" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" id="file" required>
+    <button type="submit">Konversi</button>
+  </form>
+
+  <div class="video-container">
+
+  </div>
+
+  <div class="finish">
+    <hr />
+    <p class="time">Total waktu konversi: <span class="highlight">0</span> milidetik.</p>
+
+    <form action="/client">
+      <button type="submit" class="button">Konversi lagi</button>
     </form>
 
-    <div class="video-container">
-
-    </div>
-
-    <div class="finish">
-        <hr />
-        <p class="time">Total waktu konversi: <span class="highlight">0</span> milidetik.</p>
-
-        <form action="/client">
-            <button type="submit" class="button">Konversi lagi</button>
-        </form>
-
-    </div>
+  </div>
 
 
-    <script src="js/ffmpeg.min.js"></script>
-    <script type="module" src="js/client.js"></script>
+  <script src="js/ffmpeg.min.js"></script>
+  <script type="module" src="js/client.js"></script>
 
 
 </body>
