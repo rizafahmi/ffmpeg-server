@@ -1,7 +1,9 @@
 const { createFFmpeg, fetchFile } = FFmpeg;
 
-
-const ffmpeg = createFFmpeg({ log: true, corePath: 'https://ffmpeg.rizafahmi.com/js/ffmpeg-core.js' });
+const ffmpeg = createFFmpeg({
+  log: true,
+  corePath: 'https://ffmpeg.rizafahmi.com/js/ffmpeg-core.js',
+});
 
 const formEl = document.querySelector('form');
 const loadingEl = document.querySelector('.loading');
@@ -13,7 +15,6 @@ const convertEl = document.querySelector('button[type="submit"]');
 formEl.style = 'display: none';
 finishEl.style = 'display: none';
 errorEl.style = 'display: none';
-
 
 async function main() {
   try {
@@ -30,7 +31,6 @@ async function main() {
 main();
 
 formEl.addEventListener('submit', convert, false);
-
 
 async function convert(event) {
   event.preventDefault();
@@ -68,30 +68,31 @@ async function convert(event) {
   console.info('Conversion complete');
   // create video element
   const videoEl = document.createElement('video');
-  videoEl.id = "video";
+  videoEl.id = 'video';
   videoEl.controls = true;
 
-  const source = document.createElement('source')
+  const source = document.createElement('source');
   source.src = result;
-  source.type = "video/webm";
+  source.type = 'video/webm';
   videoEl.appendChild(source);
 
   document.querySelector('.video-container').appendChild(videoEl);
   const duration = end - start;
   console.info('Time taken: ' + duration + 'ms');
 
-  fetch('/api/record', { method: 'POST', body: JSON.stringify({ time: duration, filesize: video.size }), headers: { 'Content-Type': 'application/json' } });
+  fetch('/api/record', {
+    method: 'POST',
+    body: JSON.stringify({ time: duration, filesize: video.size }),
+    headers: { 'Content-Type': 'application/json' },
+  });
   highlightEl.textContent = duration;
 
   resetUI();
-
 }
 
 function resetUI() {
-
   loadingEl.style = 'display: none;';
   formEl.style = 'display: inline';
   finishEl.style = 'display: block';
   convertEl.disabled = true;
-
 }
