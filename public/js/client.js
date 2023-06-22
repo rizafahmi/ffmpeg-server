@@ -1,9 +1,3 @@
-const { createFFmpeg, fetchFile } = FFmpeg;
-
-const ffmpeg = createFFmpeg({
-  log: true,
-  corePath: 'https://ffmpeg.rizafahmi.com/js/ffmpeg-core.js',
-});
 
 const formEl = document.querySelector('form');
 const loadingEl = document.querySelector('.loading');
@@ -18,7 +12,6 @@ errorEl.style = 'display: none';
 
 async function main() {
   try {
-    await ffmpeg.load();
     loadingEl.style = 'display: none;';
     formEl.style = 'display: inline';
   } catch (err) {
@@ -43,21 +36,6 @@ async function convert(event) {
 
   const start = Date.now();
 
-  ffmpeg.FS('writeFile', video.name, await fetchFile(video));
-  await ffmpeg.run(
-    '-i',
-    video.name,
-    '-c:v',
-    'libvpx',
-    '-crf',
-    '15',
-    '-b:v',
-    '1M',
-    '-c:a',
-    'libvorbis',
-    'download.webm'
-  );
-  const data = ffmpeg.FS('readFile', 'download.webm');
 
   const end = Date.now();
 
