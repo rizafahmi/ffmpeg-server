@@ -1,3 +1,4 @@
+// Import ffmpeg
 
 const formEl = document.querySelector('form');
 const loadingEl = document.querySelector('.loading');
@@ -10,8 +11,12 @@ formEl.style = 'display: none';
 finishEl.style = 'display: none';
 errorEl.style = 'display: none';
 
+// Create ffmpeg 'instance'
+
 async function main() {
   try {
+    // Load ffmpeg
+
     loadingEl.style = 'display: none;';
     formEl.style = 'display: inline';
   } catch (err) {
@@ -36,6 +41,11 @@ async function convert(event) {
 
   const start = Date.now();
 
+  // Fetch video file
+
+  // Convert video
+
+  // Read video
 
   const end = Date.now();
 
