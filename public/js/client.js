@@ -48,10 +48,13 @@ async function convert(event) {
   const start = Date.now();
 
   // Fetch video file
+  ffmpeg.FS('writeFile', video.name, await fetchFile(video));
 
   // Convert video
+  await ffmpeg.run('-i', video.name, '-c:v', 'libvpx', '-crf', '15', '-b:v', '1M', '-c:a', 'libvorbis', 'download.webm');
 
   // Read video
+  const data = ffmpeg.FS('readFile', 'download.webm');
 
   const end = Date.now();
 
