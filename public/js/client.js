@@ -1,4 +1,5 @@
 // Import ffmpeg
+const { createFFmpeg, fetchFile } = FFmpeg;
 
 const formEl = document.querySelector('form');
 const loadingEl = document.querySelector('.loading');
@@ -12,10 +13,15 @@ finishEl.style = 'display: none';
 errorEl.style = 'display: none';
 
 // Create ffmpeg 'instance'
+const ffmpeg = createFFmpeg({
+  log: true,
+  corePath: 'https://ffmpeg.rizafahmi.com/js/ffmpeg-core.js'
+});
 
 async function main() {
   try {
     // Load ffmpeg
+    await ffmpeg.load();
 
     loadingEl.style = 'display: none;';
     formEl.style = 'display: inline';
