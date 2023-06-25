@@ -2,30 +2,31 @@
 <html lang="id">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Title -->
-  <title>Konversi Media</title>
+    <!-- Title -->
+    <title>Konversi Media</title>
 
-  <!-- Favicon -->
-  <link rel="shortcut icon" href="/img/favicon.ico" />
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico" />
 
-  <!-- Font -->
+    <!-- Font -->
 
-  <link rel="stylesheet" href="/open-props.min.css">
-  <link rel="stylesheet" href="/normalize.dark.min.css">
-  <link rel="stylesheet" href="/buttons.min.css">
-  <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/open-props.min.css">
+    <link rel="stylesheet" href="/normalize.dark.min.css">
+    <link rel="stylesheet" href="/buttons.min.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
-  <h1>Konversi Media</h1>
+    {% include '_nav.html' %}
+    <h1>Konversi Media</h1>
 
-  <form action="/" method="post" enctype="multipart/form-data">
-    <input type="file" name="file" id="file" required>
-    <button type="submit">Konversi</button>
-  </form>
+    <form action="/" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" id="file" required>
+        <button type="submit">Konversi</button>
+    </form>
 
 </body>
 

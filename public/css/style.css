@@ -32,3 +32,13 @@ tbody {
 tr:nth-child(even) {
     background: var(--indigo-9);
 }
+
+nav {
+    background: var(--gradient-8);
+    padding: var(--size-2);
+}
+nav ul {
+    list-style: none;
+    display: flex;
+    padding: 0;
+}
