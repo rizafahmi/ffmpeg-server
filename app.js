@@ -9,13 +9,21 @@ import { spawn } from 'child_process';
 import path from 'path';
 
 const db = new sqlite(path.resolve('stats.db'), { fileMustExist: false });
-db.exec(`CREATE TABLE IF NOT EXISTS stats (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  time INTEGER NOT NULL,
-  user_agent TEXT,
-  filesize INTEGER,
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-  );`);
+try {
+  console.info("Initializing database...");
+
+  db.exec(`CREATE TABLE IF NOT EXISTS stats (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    time INTEGER NOT NULL,
+    user_agent TEXT,
+    filesize INTEGER,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );`);
+  console.info("Database initialized.");
+
+} catch(err) {
+  console.error(err);
+}
 
 const UPLOAD_PATH = 'public/uploads';
 
@@ -84,6 +92,12 @@ app.get('/client', function(req, res) {
   res.setHeader('Cross-Origin-Opener-Policy', 'same-origin')
 
   res.render('client.html');
+});
+
+app.get('/report', function(req, res) {
+  const data = db.prepare(`SELECT * FROM stats ORDER BY created_at DESC;`).all();
+
+  res.render('report.html', { data });
 });
 
 app.use(express.json());

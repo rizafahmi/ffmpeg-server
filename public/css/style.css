@@ -16,3 +16,19 @@ body {
 .highlight {
     animation: var(--animation-blink);
 }
+
+table {
+    width: 100%;
+}
+
+thead {
+    background: var(--gradient-16);
+}
+
+tbody {
+    text-align: center;
+    background: var(--indigo-12);
+}
+tr:nth-child(even) {
+    background: var(--indigo-9);
+}

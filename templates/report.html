@@ -1,0 +1,57 @@
+<!doctype html>
+{% import 'helpers.njk' as helpers %}
+<html lang="id">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Title -->
+    <title>Konversi Media : Laporan</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico" />
+
+    <!-- Font -->
+
+    <link rel="stylesheet" href="/open-props.min.css">
+    <link rel="stylesheet" href="/normalize.dark.min.css">
+    <link rel="stylesheet" href="/buttons.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <h1>Laporan FFmpeg</h1>
+
+    <form action="/client">
+        <button type="submit" class="button">Konversi</button>
+    </form>
+
+    <hr />
+
+    <!-- html table with 3 rows -->
+    <table>
+        <thead>
+            <th>Ukuran video</th>
+            <th>Waktu konversi</th>
+            <th>Waktu upload</th>
+            <th>Agen</th>
+        </thead>
+        <tbody>
+            {% for row in data %}
+            <tr>
+                <td>{{ row.filesize.toLocaleString('id') }} bytes</td>
+                <td>{{ row.time.toLocaleString('id') }} ms</td>
+                <td>{{ row.created_at }}</td>
+                <td>
+                    {{ helpers.parseUserAgent(row.user_agent) }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+</body>
+
+</html>

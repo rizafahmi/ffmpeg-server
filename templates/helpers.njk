@@ -1,0 +1,5 @@
+{% macro parseUserAgent(str) %}
+    {% set os = str.substring(str.indexOf("(")+1, str.indexOf(")")) %}
+    {% set browser = str.substring(str.lastIndexOf(")")+2).split(" ")[0] %}
+    {{ browser }} di {{ os }}
+{% endmacro %}

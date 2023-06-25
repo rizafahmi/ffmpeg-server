@@ -78,14 +78,14 @@ async function convert(event) {
 
   document.querySelector('.video-container').appendChild(videoEl);
   const duration = end - start;
-  console.info('Time taken: ' + duration + 'ms');
+  console.info('Time taken: ' + duration.toLocaleString('id') + 'ms');
 
   fetch('/api/record', {
     method: 'POST',
     body: JSON.stringify({ time: duration, filesize: video.size }),
     headers: { 'Content-Type': 'application/json' },
   });
-  highlightEl.textContent = duration;
+  highlightEl.textContent = duration.toLocaleString('id');
 
   resetUI();
 }
